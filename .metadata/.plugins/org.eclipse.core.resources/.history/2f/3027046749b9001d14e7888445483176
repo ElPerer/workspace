@@ -1,0 +1,26 @@
+package com.springboot.form.app.controllers;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class FormController {
+	
+	//Métodos Handler
+	@RequestMapping(value = "/form", method = RequestMethod.GET)
+	public String form(ModelMap modelMap) {
+		modelMap.addAttribute("titulo", "Formulario");
+		return "form";
+	}
+	
+	@RequestMapping(value = "/form", method = RequestMethod.POST)
+	public String postForm(Map<String, Object> map) {
+		map.put("titulo", "Formulario post");
+		return "resultado";
+	}
+
+}

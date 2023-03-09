@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+</head>
+<body>
+	<h1 th:text="${titulo}"></h1>
+	<form th:action="@{/app/getForm}" method="POST">
+		<div>
+			<label for="username">Username: </label>
+			<div>
+				<input type="text" name="username" id="username" th:value="${user.getUsername()}">
+			</div>
+		</div>
+		<div th:if="${error != null && error.containsKey('username')}" th:text="${error.get('username')}"></div>
+		<div>
+			<label for="password">Password: </label>
+			<div>
+				<input type="password" name="password" id="password" th:value="${user.getPassword()}">
+			</div>
+		</div>
+		<div th:if="${error != null && error.containsKey('password')}" th:text="${error.get('password')}"></div>
+		<div>
+			<label for="email">Email: </label>
+			<div>
+				<input type="email" name="email" id="email" th:value="${user.getEmail()}">
+			</div>
+		</div>
+		<div th:if="${error != null && error.containsKey('email')}" th:text="${error.get('email')}"></div>
+		<div>
+			<div>
+				<input type="submit" value="Enviar">
+			</div>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,39 @@
+package com.springboot.form.app.controllers;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.springboot.form.app.models.domain.Usuario;
+
+@Controller
+@RequestMapping(value = "/app", method = RequestMethod.GET)
+public class FormController {
+	
+	@Autowired
+	private Usuario usuario;
+	
+	//Métodos Handler
+	@RequestMapping(value = "/form", method = RequestMethod.GET)
+	public String form(ModelMap modelMap) {
+		modelMap.addAttribute("titulo", "Formulario");
+		return "form";
+	}
+	
+	@RequestMapping(value = "/getForm", method = RequestMethod.POST)
+	public String postForm(Map<String, Object> map, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "email") String email) {
+		map.put("titulo", "Resultado del formulario");
+		usuario.setUsername(username);
+		usuario.setPassword(password);
+		usuario.setEmail(email);
+		map.put("username", username);
+		map.put("password", password);
+		map.put("email", email);
+		return "resultado";
+	}
+}

@@ -1,0 +1,62 @@
+package com.springboot.form.app.controllers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.springboot.form.app.models.domain.Usuario;
+
+import jakarta.validation.Valid;
+
+@Controller
+@RequestMapping(value = "/app", method = RequestMethod.GET)
+public class FormController {
+	
+	//Métodos Handler
+	@RequestMapping(value = "/form", method = RequestMethod.GET)
+	public String form(ModelMap modelMap) {
+		
+		Usuario usuario = new Usuario();
+		modelMap.addAttribute("titulo", "Formulario");
+		modelMap.addAttribute("user", usuario);
+		return "form";
+	}
+	
+	/* @RequestMapping(value = "/getForm", method = RequestMethod.POST)
+	public String postForm(Usuario usuario, Map<String, Object> map, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "email") String email) {
+		
+		map.put("titulo", "Resultado del formulario");
+		usuario.setUsername(username);
+		usuario.setPassword(password);
+		usuario.setEmail(email);
+		map.put("usuario", usuario);
+		return "resultado";
+	} */
+	
+	// Esta es una manera limpia de recibir parámetros
+	@RequestMapping(value = "/getForm", method = RequestMethod.POST)
+	
+	//BindigResult contiene los mensajes de error en caso que ocurra alguno, es una Interface
+	//Algo importante a mencionar es que es importante que esté después del objeto que se valida
+	public String postForm(@Valid @ModelAttribute("user") Usuario usuario, BindingResult result, Map<String, Object> map) {
+		
+		map.put("titulo", "Resultado del formulario");
+		
+		if(result.hasErrors()) {
+			Map<String, String> errors = new HashMap<>();
+			result.getFieldErrors().forEach(err -> {
+				errors.put(err.getField(), "El campo " .concat(err.getField()).concat(" ").concat(err.getDefaultMessage()));
+			});
+			map.put("error", errors);
+			return "form";
+		}
+		map.put("usuario", usuario);
+		return "resultado";
+	}
+}

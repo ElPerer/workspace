@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+</head>
+<body>
+	<h1 th:text="${titulo}"></h1>
+	<ul>
+		<li>
+			<a th:href="@{/variables/string/} + 'Esto es un texto por parámetro'" th:text="'Enviar UN parámetro con @PathVariable'"></a>
+		</li>
+		<li>
+		<!-- El segundo parámetro se puede colocar después de la / sin necesidad de poner el caracter + -->
+			<a th:href="@{/variables/string/} + 'Primer parámetro' + '/' + 26" th:text="'Enviar DOS parámetro con @PathVariable'"></a>
+		</li>
+	</ul>
+</body>
+</html>
